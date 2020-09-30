@@ -1,5 +1,9 @@
 class Course < ApplicationRecord
-  has_many :favoritors, class_name: 'Favourite', foreign_key: 'course_id'
-  has_many :raters, class_name: 'Favourite', foreign_key: 'course_id'
-  has_many :tags, class_name: 'CourseRatings', foreign_key: 'course_id'
+  # associations
+  has_many :favoritors, class_name: 'Favourite', foreign_key: 'course_id', dependent: :destroy
+  has_many :raters, class_name: 'Favourite', foreign_key: 'course_id', dependent: :destroy
+  has_many :tags, class_name: 'CourseRating', foreign_key: 'course_id', dependent: :destroy
+
+  # validatios
+  validates_presence_of :name, :description, :price
 end
