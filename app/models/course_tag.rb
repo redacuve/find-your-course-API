@@ -1,4 +1,4 @@
-class CourseRating < ApplicationRecord
+class CourseTag < ApplicationRecord
   # associations
   belongs_to :course
   belongs_to :tag

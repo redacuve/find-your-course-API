@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CourseRating, type: :model do
+RSpec.describe CourseTag, type: :model do
   it { should belong_to(:course) }
   it { should belong_to(:tag) }
 
