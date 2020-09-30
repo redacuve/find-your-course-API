@@ -32,7 +32,7 @@ RSpec.describe "Courses API", type: :request do
     end
 
     context 'when the course does not exists' do
-      let(:todo_id) { 1000 }
+      let(:course_id) { 100 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -51,7 +51,7 @@ RSpec.describe "Courses API", type: :request do
       before { post '/courses', params: valid_attributes }
 
       it 'creates the course' do
-        expect(json['title']).to eq('Web Formatting 101')
+        expect(json['name']).to eq('Web Formatting 101')
       end
 
       it 'returns status code 201' do
@@ -67,7 +67,7 @@ RSpec.describe "Courses API", type: :request do
       end
 
       it 'returns a validation failure message' do
-        expect(response.body).to match(/Validation failed: Description can't be blank, Price can't be blank/)
+        expect(response.body).to match(/Validation failed: Name can't be blank,/)
       end
     end
   end

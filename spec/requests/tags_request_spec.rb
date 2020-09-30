@@ -18,7 +18,7 @@ RSpec.describe "Tags API", type: :request do
   end
 
   describe 'GET /tags/:id' do
-    before { get "/tags/#{tag_id}"}
+    before { get "/tags/#{tag_id}" }
 
     context 'when the tag exists' do
       it 'returns the tag' do
@@ -32,14 +32,14 @@ RSpec.describe "Tags API", type: :request do
     end
 
     context 'when the tag does not exists' do
-      let(:todo_id) { 1000 }
+      let(:tag_id) { 1000 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find tag/)
+        expect(response.body).to match(/Couldn't find Tag/)
       end
     end
   end
