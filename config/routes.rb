@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   get '/tags/:id', to: 'tags#show'
   get '/tags', to: 'tags#index'
   post '/tags', to: 'tags#create'
+  post 'auth/login', to: 'authentication#authenticate'
+  post 'signup', to: 'users#create'
 end
