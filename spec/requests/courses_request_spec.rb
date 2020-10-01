@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Courses API", type: :request do
+  let(:user) { create(:user) }
   let!(:courses) { create_list(:course, 10) }
   let(:course_id) { courses.first.id }
+  let(:headers) { valid_headers }
 
   describe 'GET /courses' do
-    before { get '/courses' }
+    before { get '/courses', params: {}, headers: headers }
 
     it 'returns courses' do
       expect(json).not_to be_empty
@@ -18,7 +20,7 @@ RSpec.describe "Courses API", type: :request do
   end
 
   describe 'GET /courses/:id' do
-    before { get "/courses/#{course_id}" }
+    before { get "/courses/#{course_id}", params: {}, headers: headers }
 
     context 'when the course exists' do
       it 'returns the course' do
@@ -45,10 +47,10 @@ RSpec.describe "Courses API", type: :request do
   end
 
   describe 'POST /courses' do
-    let(:valid_attributes) { { name: 'Web Formatting 101', description: 'Leanr about web', price: 10.99 } }
+    let(:valid_attributes) { { name: 'Web Formatting 101', description: 'Leanr about web', price: 10.99 }.to_json }
 
     context 'when the request is valid' do
-      before { post '/courses', params: valid_attributes }
+      before { post '/courses', params: valid_attributes, headers: headers }
 
       it 'creates the course' do
         expect(json['name']).to eq('Web Formatting 101')
@@ -60,7 +62,8 @@ RSpec.describe "Courses API", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/courses', params: { title: 'Web 101' } }
+      let(:invalid_attributes) { { title: 'Web 101' }.to_json }
+      before { post '/courses', params: invalid_attributes, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -73,10 +76,10 @@ RSpec.describe "Courses API", type: :request do
   end
 
   describe 'PUT /courses/:id' do
-    let(:valid_attributes) { { name: 'How to upload images' } }
+    let(:valid_attributes) { { name: 'How to upload images' }.to_json }
 
     context 'when the record exists' do
-      before { put "/courses/#{course_id}", params: valid_attributes }
+      before { put "/courses/#{course_id}", params: valid_attributes, headers: headers }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -89,7 +92,7 @@ RSpec.describe "Courses API", type: :request do
   end
 
   describe 'DELETE /courses/:id' do
-    before { delete "/courses/#{course_id}" }
+    before { delete "/courses/#{course_id}", params: {}, headers: headers }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

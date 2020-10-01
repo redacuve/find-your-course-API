@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Tags API", type: :request do
+  let(:user) { create(:user) }
   let!(:tags) { create_list(:tag, 10) }
   let(:tag_id) { tags.first.id }
+  let(:headers) { valid_headers }
 
   describe 'GET /tags' do
-    before { get '/tags' }
+    before { get '/tags', params: {}, headers: headers }
 
     it 'returns tags' do
       expect(json).not_to be_empty
@@ -18,7 +20,7 @@ RSpec.describe "Tags API", type: :request do
   end
 
   describe 'GET /tags/:id' do
-    before { get "/tags/#{tag_id}" }
+    before { get "/tags/#{tag_id}", params: {}, headers: headers }
 
     context 'when the tag exists' do
       it 'returns the tag' do
@@ -45,10 +47,10 @@ RSpec.describe "Tags API", type: :request do
   end
 
   describe 'POST /tags' do
-    let(:valid_attributes) { { title: 'Ruby-on-Rails' } }
+    let(:valid_attributes) { { title: 'Ruby-on-Rails' }.to_json }
 
     context 'when the request is valid' do
-      before { post '/tags', params: valid_attributes }
+      before { post '/tags', params: valid_attributes, headers: headers }
 
       it 'creates the tag' do
         expect(json['title']).to eq('Ruby-on-Rails')
@@ -60,7 +62,7 @@ RSpec.describe "Tags API", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/tags', params: { title: '' } }
+      before { post '/tags', params: { title: '' }.to_json, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
