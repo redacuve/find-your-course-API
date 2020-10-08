@@ -4,9 +4,11 @@ class User < ApplicationRecord
 
   # associations
   has_many :favorites, class_name: 'Favourite', foreign_key: 'user_id', dependent: :destroy
+  has_many :favorites_courses, through: :favorites, source: :course
   has_many :ratings, class_name: 'Rating', foreign_key: 'user_id', dependent: :destroy
 
   # validations
   validates_presence_of :username, :email, :password_digest
   validates :email, uniqueness: true
+  validates :username, uniqueness: true
 end
