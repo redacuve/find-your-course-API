@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   post '/tags', to: 'tags#create'
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
+  get '/:username/favourites', to: 'users#favourites'
 end

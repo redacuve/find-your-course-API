@@ -8,6 +8,11 @@ class UsersController < ApplicationController
     json_response(response, :created)
   end
 
+  def favourites
+    user = User.find_by(username: params[:username])
+    json_response(user.favorites_courses)
+  end
+
   private
 
   def user_params
