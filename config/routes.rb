@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
   get '/:username/favourites', to: 'users#favourites'
+  post '/:username/favourites', to: 'users#add_favourite'
+  delete '/:username/favourites', to: 'users#remove_favourite'
 end
