@@ -12,7 +12,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    json_response(@course)
+    json_response({ course: @course, favourite: @course.favoritor?(@current_user.id), tags: @course.tags_name })
   end
 
   def update
